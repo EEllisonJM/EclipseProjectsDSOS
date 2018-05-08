@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.http.client.config.RequestConfig;
@@ -7,9 +8,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 
+import model.Nodo;
+
 public class Cliente {
 	
-	public void procesarsolicitudes(String[] nodos) throws Exception {
+	public void solicitud(List<Nodo> nodos) throws Exception {
 		
 		//long inicioApp = System.currentTimeMillis();
     	
@@ -23,9 +26,9 @@ public class Cliente {
                 .build();
             try {
                 httpclient.start();
-                final HttpGet[] requests = new HttpGet[nodos.length];
-                for (int i=0;i<nodos.length;i++) {
-                	requests[i] = new HttpGet(nodos[i]);
+                final HttpGet[] requests = new HttpGet[nodos.size()];
+                for (int i=0;i<nodos.size();i++) {
+                	requests[i] = new HttpGet(nodos.get(i).getUri());
                 }
                 final CountDownLatch latch = new CountDownLatch(requests.length);
                 for (final HttpGet request: requests) {
