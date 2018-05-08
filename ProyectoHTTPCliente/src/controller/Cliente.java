@@ -17,37 +17,35 @@ public class Cliente {
 		//long inicioApp = System.currentTimeMillis();
     	
     	RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(3000)
+    			.setSocketTimeout(3000)
                 .setConnectTimeout(3000)
                 .setConnectionRequestTimeout(3000)//
+                .build();    	
+        CloseableHttpAsyncClient httpclient = HttpAsyncClients.custom()
+        		.setDefaultRequestConfig(requestConfig)
                 .build();
-            CloseableHttpAsyncClient httpclient = HttpAsyncClients.custom()
-                .setDefaultRequestConfig(requestConfig)
-                .build();
-            try {
-                httpclient.start();
-                final HttpGet[] requests = new HttpGet[nodos.size()];
-                for (int i=0;i<nodos.size();i++) {
-                	requests[i] = new HttpGet(nodos.get(i).getUri());
-                }
-                final CountDownLatch latch = new CountDownLatch(requests.length);
-                for (final HttpGet request: requests) {
-                	System.out.println("Inicainado petición...");
-                	long inicioSol = System.currentTimeMillis();
-                	Callback futureCallback = new Callback(latch, request.getURI().toString(), inicioSol);
-                    httpclient.execute(request, futureCallback);
-                    
-                }
-                latch.await();
-                System.out.println("Shutting down");
-            } finally {
-                httpclient.close();
+        try {
+            httpclient.start();
+            final HttpGet[] requests = new HttpGet[nodos.size()];
+            for (int i=0;i<nodos.size();i++) {
+            	requests[i] = new HttpGet(nodos.get(i).getUri());
             }
-            System.out.println("Done");
+            final CountDownLatch latch = new CountDownLatch(requests.length);
+            for (final HttpGet request: requests) {
+            	//System.out.println("Inicainado petición...");
+            	//long inicioSol = System.currentTimeMillis();
+                Callback futureCallback = new Callback(latch, request.getURI());
+                httpclient.execute(request, futureCallback);
+            }
+            latch.await();
+            System.out.println("Shutting down");
+        } finally {
+            httpclient.close();
+        }
+        System.out.println("Done");
     	
     	//long tiempoApp = System.currentTimeMillis() - inicioApp;
         //System.out.println("\nDuración de la aplicación: "+tiempoApp+" milisegundos");
-		
 	}
 
 }
