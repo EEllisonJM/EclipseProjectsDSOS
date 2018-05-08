@@ -1,0 +1,17 @@
+package view;
+
+public class PanelRestricciones extends JPanel implements ActionListener{
+	
+	public public PanelRestricciones() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+
+}
