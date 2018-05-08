@@ -12,20 +12,22 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import model.Nodo;
 import model.Numero;
 
 public class CSVHandler {
 	List<Numero[]> numeros;
+	List<Nodo> nodos;
 	private Path ubicacionArchivoCSV;
 	private char delimitador;
 
-	public CSVHandler(String rutaArchivo, char delimitador) {
-		this.ubicacionArchivoCSV = Paths.get(rutaArchivo);
+	public CSVHandler(char delimitador) {
 		this.delimitador = delimitador;
 	}
 
 	/* Lista de Arreglo de numeros */
-	List<Numero[]> leerArchivo() throws IOException {
+	List<Numero[]> leerArchivo(String rutaArchivo) throws IOException {
+		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			numeros = new ArrayList<>();
 
@@ -48,6 +50,26 @@ public class CSVHandler {
 		}
 		System.out.println("El archivo que se intenta procesar no existe, verifique");
 		return null;
+	}
 
+	List<Nodo> leerArchivoNodos(String rutaArchivo) throws IOException {
+		ubicacionArchivoCSV = Paths.get(rutaArchivo);
+		if (Files.exists(ubicacionArchivoCSV)) {
+			nodos = new ArrayList<>();
+			/* Accessing column values by index */
+			Reader lectorArchivo = new FileReader(ubicacionArchivoCSV.toString());
+			Iterable<CSVRecord> registros = CSVFormat.newFormat(delimitador).parse(lectorArchivo);
+			for (CSVRecord registro : registros) {
+				/* Working with Headers */
+				try {
+					nodos.add(new Nodo("http", registro.get(0), 1234, "/nombres.csv"));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			return nodos;
+		}
+		System.out.println("El archivo que se intenta procesar no existe, verifique");
+		return null;
 	}
 }
