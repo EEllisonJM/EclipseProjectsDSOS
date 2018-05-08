@@ -9,7 +9,7 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 
 public class Cliente {
 	
-	public void procesarsolicitudes() throws Exception {
+	public void procesarsolicitudes(String[] nodos) throws Exception {
 		
 		//long inicioApp = System.currentTimeMillis();
     	
@@ -23,35 +23,10 @@ public class Cliente {
                 .build();
             try {
                 httpclient.start();
-                final HttpGet[] requests = new HttpGet[] {
-                		new HttpGet("http://altamiranonolascoadalididier.dsos.net:1234/nombres.csv"),
-                		new HttpGet("http://antoniomoralesalfonsofabian.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://bartoloosoriogabino.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://chavezhernandezsergioivan.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://cuevasortizemmanuelalejandro.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://diazperezmarcos.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://enriqueztoraljuancarlos.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://garciagarciaguillermoricardo.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://gonzalezcruzcarlosfrancisco.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://hernandezalcantarabrenda.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://hernandezgarciadavid.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://jimenezmartinezerikellison.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://lopezhernandezrobertobenjamin.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://martinezgarciajorgealejandro.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://martinezmartinezjosemanuel.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://matiasjacintogibran.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://mendezramirezricardo.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://mirandamirandaedgaryoset.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://perezsantiagoeduardo.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://ramirezruizdaniel.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://reyesoliverajocelyncitlali.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://reyesvasquezdanielalejandro.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://riossilvaguillermo.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://sanchezlopezeduardogeovanni.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://zaratehernandezjairomiguel.dsos.net:1234/nombres.csv"),
-        		    	new HttpGet("http://zigalopezantonio.dsos.net:1234/nombres.csv")
-                        //new HttpGet("http://localhost:1234/nombres.csv")
-                };
+                final HttpGet[] requests = new HttpGet[nodos.length];
+                for (int i=0;i<nodos.length;i++) {
+                	requests[i] = new HttpGet(nodos[i]);
+                }
                 final CountDownLatch latch = new CountDownLatch(requests.length);
                 for (final HttpGet request: requests) {
                 	System.out.println("Inicainado petición...");
