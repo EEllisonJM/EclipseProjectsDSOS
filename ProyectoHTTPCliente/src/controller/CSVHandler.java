@@ -26,7 +26,7 @@ public class CSVHandler {
 	}
 
 	/* Lista de Arreglo de numeros */
-	List<Numero[]> leerArchivo(String rutaArchivo) throws IOException {
+	public List<Numero[]> leerArchivoNumeros(String rutaArchivo) throws IOException {
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			numeros = new ArrayList<>();
@@ -52,7 +52,7 @@ public class CSVHandler {
 		return null;
 	}
 
-	List<Nodo> leerArchivoNodos(String rutaArchivo) throws IOException {
+	public List<Nodo> leerArchivoNodos(String rutaArchivo) throws IOException {
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			nodos = new ArrayList<>();
