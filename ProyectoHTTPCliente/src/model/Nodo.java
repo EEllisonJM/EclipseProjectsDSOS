@@ -14,6 +14,10 @@ public class Nodo {
 				.setPort(port).setPath(path)// "/search"
 				.build();
 	}
+	
+	public Nodo(URI uri) {
+		this.uri = uri;
+	}
 
 	public URI getUri() {
 		return uri;

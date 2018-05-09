@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -12,10 +13,13 @@ import model.Nodo;
 
 public class Cliente {
 	
+	private List<Nodo> completados = new ArrayList();
+	private List<Nodo> fallidos = new ArrayList();
+	private List<Nodo> cancelados = new ArrayList();
+	
 	public void solicitud(List<Nodo> nodos) throws Exception {
 		
 		//long inicioApp = System.currentTimeMillis();
-    	
     	RequestConfig requestConfig = RequestConfig.custom()
     			.setSocketTimeout(3000)
                 .setConnectTimeout(3000)
@@ -34,7 +38,7 @@ public class Cliente {
             for (final HttpGet request: requests) {
             	//System.out.println("Inicainado petición...");
             	//long inicioSol = System.currentTimeMillis();
-                Callback futureCallback = new Callback(latch, request.getURI());
+                Callback futureCallback = new Callback(latch, request.getURI(), completados, fallidos, cancelados);
                 httpclient.execute(request, futureCallback);
             }
             latch.await();
@@ -46,6 +50,18 @@ public class Cliente {
     	
     	//long tiempoApp = System.currentTimeMillis() - inicioApp;
         //System.out.println("\nDuración de la aplicación: "+tiempoApp+" milisegundos");
+	}
+	
+	public List<Nodo> getCompletados(){
+		return completados;
+	}
+	
+	public List<Nodo> getFallidos(){
+		return fallidos;
+	}
+	
+	public List<Nodo> getCancelados(){
+		return cancelados;
 	}
 
 }
