@@ -19,7 +19,6 @@ import controller.Cliente;
 import model.Nodo;
 
 public class GUI_Principal extends JFrame implements ActionListener {
-	public static GUI_Principal classAInstance = new GUI_Principal();
 
 	JTabbedPane tablaPaneles;
 	JPanel panelPrincipal;
