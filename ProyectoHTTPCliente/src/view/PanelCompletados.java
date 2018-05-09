@@ -15,15 +15,14 @@ import javax.swing.event.ChangeListener;
 import model.Nodo;
 
 public class PanelCompletados extends JPanel implements ChangeListener, ActionListener {
-	
 	private List<Nodo> completados;
 	private JTextPane[] jTextos;
 	private JButton[] jBotones;
-	
+
 	public PanelCompletados(List<Nodo> completados) {
 		this.completados = completados;
 		this.setBorder(BorderFactory.createTitledBorder("Solicitudes completadas"));
-		this.setToolTipText("Se muestran las solucitudes que fueron completadas con éxito");
+		this.setToolTipText("Se muestran las solucitudes que fueron completadas con ï¿½xito");
 		this.setLayout(new GridLayout(0, 2));
 
 		jTextos = new JTextPane[completados.size()];
@@ -39,7 +38,7 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 			jTextPane[i].setText(completados.get(i).getUri().toString());
 		}
 	}
-	
+
 	public void inicializarJButton(JButton jButton[]) {
 		for (int i = 0; i < jButton.length; i++) {
 			jButton[i] = new JButton("Mostrar Datos");
@@ -57,12 +56,12 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -17,65 +17,68 @@ import org.apache.http.util.EntityUtils;
 import model.Nodo;
 
 public class Callback implements FutureCallback<HttpResponse> {
-	
 	private List<Nodo> completados;
 	private List<Nodo> fallidos;
 	private List<Nodo> cancelados;
 	private CountDownLatch latch;
 	private URI uri;
-	//private long inicioSol;
-	
+	// private long inicioSol;
+
 	public Callback(CountDownLatch latch, URI uri, List<Nodo> completados, List<Nodo> fallidos, List<Nodo> cancelados) {
 		this.latch = latch;
 		this.uri = uri;
 		this.completados = completados;
 		this.fallidos = fallidos;
 		this.cancelados = cancelados;
-		//this.inicioSol = inicioSol;
+		// this.inicioSol = inicioSol;
 	}
 
 	public void completed(final HttpResponse response) {
-        latch.countDown();
-        //System.out.println(request.getRequestLine() + "->" + response.getStatusLine());
-        String contenido="";
-    	HttpEntity entity = response.getEntity();
-        try {
+		latch.countDown();
+		// System.out.println(request.getRequestLine() + "->" +
+		// response.getStatusLine());
+		String contenido = "";
+		HttpEntity entity = response.getEntity();
+		try {
 			contenido = EntityUtils.toString(entity);
 			crearArchivo(contenido);
 		} catch (ParseException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        completados.add(new Nodo(uri));
-        //long tiempoSol = System.currentTimeMillis() - inicioSol;
-        //System.out.println("Terminando petición... ("+uri+")\nDuración de la solicitud: "+tiempoSol+" milisegundos\n");
-    }
+		completados.add(new Nodo(uri));
+		// long tiempoSol = System.currentTimeMillis() - inicioSol;
+		// System.out.println("Terminando peticiï¿½n... ("+uri+")\nDuraciï¿½n de la
+		// solicitud: "+tiempoSol+" milisegundos\n");
+	}
 
-    @Override
-    public void failed(final Exception ex) {
-        latch.countDown();
-        System.out.println("Solicitud a "+uri + " fallida, " + ex);
-        fallidos.add(new Nodo(uri));
-        //long tiempoSol = System.currentTimeMillis() - inicioSol;
-        //System.out.println("Terminando petición...\nDuración de la solicitud: "+tiempoSol+" milisegundos\n");
-    }
+	@Override
+	public void failed(final Exception ex) {
+		latch.countDown();
+		System.out.println("Solicitud a " + uri + " fallida, " + ex);
+		fallidos.add(new Nodo(uri));
+		// long tiempoSol = System.currentTimeMillis() - inicioSol;
+		// System.out.println("Terminando peticiï¿½n...\nDuraciï¿½n de la solicitud:
+		// "+tiempoSol+" milisegundos\n");
+	}
 
-    @Override
-    public void cancelled() {
-        latch.countDown();
-        System.out.println("Solicitud a "+uri+ " cancelada");
-        cancelados.add(new Nodo(uri));
-        //long tiempoSol = System.currentTimeMillis() - inicioSol;
-        //System.out.println("Terminando petición...\nDuración de la solicitud: "+tiempoSol+" milisegundos\n");
-    }
-    
-    private void crearArchivo(String contenido) throws IOException{
-    	File temp = new File("archivos/"+uri.getHost()+".csv");
-    	BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
-        bw.write(contenido);
-        bw.close();
-        System.out.println("El archivo fue ubicado en "+temp.getPath().toString());
-        //temp.delete();
-    }
+	@Override
+	public void cancelled() {
+		latch.countDown();
+		System.out.println("Solicitud a " + uri + " cancelada");
+		cancelados.add(new Nodo(uri));
+		// long tiempoSol = System.currentTimeMillis() - inicioSol;
+		// System.out.println("Terminando peticiï¿½n...\nDuraciï¿½n de la solicitud:
+		// "+tiempoSol+" milisegundos\n");
+	}
+
+	private void crearArchivo(String contenido) throws IOException {
+		File temp = new File("archivos/" + uri.getHost() + ".csv");
+		BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+		bw.write(contenido);
+		bw.close();
+		System.out.println("El archivo fue ubicado en " + temp.getPath().toString());
+		// temp.delete();
+	}
 
 }

@@ -15,21 +15,20 @@ import javax.swing.event.ChangeListener;
 import model.Nodo;
 
 public class PanelFallidos extends JPanel implements ChangeListener, ActionListener {
-	
 	private List<Nodo> fallidos;
 	private JTextPane[] jTextos;
 	private JButton[] jBotones;
-	
+
 	public PanelFallidos(List<Nodo> fallidos) {
 		this.fallidos = fallidos;
 		this.setBorder(BorderFactory.createTitledBorder("Solicitudes fallidas"));
-		this.setToolTipText("Se muestran las solucitudes que no fueron completadas con éxito");
+		this.setToolTipText("Se muestran las solucitudes que no fueron completadas con ï¿½xito");
 		this.setLayout(new GridLayout(0, 1));
 
 		jTextos = new JTextPane[fallidos.size()];
-		//jBotones = new JButton[fallidos.size()];
+		// jBotones = new JButton[fallidos.size()];
 		inicializarJTextPane(jTextos);
-		//inicializarJButton(jBotones);
+		// inicializarJButton(jBotones);
 		agrearComponentes(jTextos);
 	}
 
@@ -39,7 +38,7 @@ public class PanelFallidos extends JPanel implements ChangeListener, ActionListe
 			jTextPane[i].setText(fallidos.get(i).getUri().toString());
 		}
 	}
-	
+
 	public void inicializarJButton(JButton jButton[]) {
 		for (int i = 0; i < jButton.length; i++) {
 			jButton[i] = new JButton("Mostrar Datos");
@@ -50,19 +49,19 @@ public class PanelFallidos extends JPanel implements ChangeListener, ActionListe
 	public void agrearComponentes(JTextPane[] jTextPane) {
 		for (int i = 0; i < fallidos.size(); i++) {
 			this.add(jTextPane[i]);
-			//this.add(jButton[i]);
+			// this.add(jButton[i]);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
