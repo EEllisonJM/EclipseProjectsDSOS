@@ -16,18 +16,18 @@ public class PanelTabla extends JPanel {
 	int maxColumnas;
 	// List<Numero[]> leerArchivo()
 
-	public PanelTabla(){
+	public PanelTabla(String host) throws IOException {
 		// TODO Auto-generated constructor stub
-		//CSVHandler csvHandler=new CSVHandler(',');
-		//List<Numero[]> numerosArchivo =csvHandler.leerArchivoNumeros("");
+		CSVHandler csvHandler = new CSVHandler(',');
+		List<Numero[]> numeros = csvHandler.leerArchivoNumeros("archivos/" + host + ".csv");
 		// CSV handler, get values
-		List<Numero[]> numeros = new ArrayList<>();
-		Numero[] nums0 = new Numero[] { new Numero(37), new Numero(2), new Numero(2) };
-		Numero[] nums1 = new Numero[] { new Numero(42), new Numero(53), new Numero(8), new Numero(2) };
-		Numero[] nums2 = new Numero[] { new Numero(52), new Numero(83), new Numero(1), new Numero(9) };
-		numeros.add(nums0);
-		numeros.add(nums1);
-		numeros.add(nums2);
+		/*
+		 * List<Numero[]> numeros = new ArrayList<>(); Numero[] nums0 = new Numero[] {
+		 * new Numero(37), new Numero(2), new Numero(2) }; Numero[] nums1 = new Numero[]
+		 * { new Numero(42), new Numero(53), new Numero(8), new Numero(2) }; Numero[]
+		 * nums2 = new Numero[] { new Numero(52), new Numero(83), new Numero(1), new
+		 * Numero(9) }; numeros.add(nums0); numeros.add(nums1); numeros.add(nums2);
+		 */
 
 		Object[][] k = parseListArrNumeroToObject(numeros);
 		String[] s = getEncabezado(maxColumnas);
@@ -35,6 +35,8 @@ public class PanelTabla extends JPanel {
 		tabla = new JTable(k, s);
 		tabla.setTableHeader(null);
 		this.add(tabla);
+		this.validate();
+		this.repaint();
 	}
 
 	String[] getEncabezado(int max) {

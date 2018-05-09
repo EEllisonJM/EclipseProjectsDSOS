@@ -3,11 +3,14 @@ package view;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -18,8 +21,9 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 	private List<Nodo> completados;
 	private JTextPane[] jTextos;
 	private JButton[] jBotones;
+	JTabbedPane tablaPaneles;
 
-	public PanelCompletados(List<Nodo> completados) {
+	public PanelCompletados(List<Nodo> completados, JTabbedPane tablaPaneles) {
 		this.completados = completados;
 		this.setBorder(BorderFactory.createTitledBorder("Solicitudes completadas"));
 		this.setToolTipText("Se muestran las solucitudes que fueron completadas con �xito");
@@ -30,6 +34,8 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 		inicializarJTextPane(jTextos);
 		inicializarJButton(jBotones);
 		agrearComponentes(jTextos, jBotones);
+
+		this.tablaPaneles = tablaPaneles;
 	}
 
 	public void inicializarJTextPane(JTextPane jTextPane[]) {
@@ -52,10 +58,24 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 			this.add(jButton[i]);
 		}
 	}
-
+ 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+
+		for (int i = 0; i < jBotones.length; i++) {
+			if (e.getSource() == jBotones[i]) {
+				try {
+					JPanel panelTabla = new PanelTabla(completados.get(i).getUri().getHost());//Add operaciones,restricciones
+					tablaPaneles.addTab("Datos", panelTabla);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println("Paso por aqui");
+
+			}
+		}
 
 	}
 

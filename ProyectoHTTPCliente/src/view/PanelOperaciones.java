@@ -39,7 +39,7 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 			jcbListaOperaciones.addItem(values[i]);
 		}
 	}
-
+ 
 	public JComboBox<String> getListaOperaciones() {
 		return jcbListaOperaciones;
 	}
