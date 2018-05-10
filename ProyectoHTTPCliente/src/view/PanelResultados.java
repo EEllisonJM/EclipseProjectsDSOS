@@ -3,9 +3,11 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
@@ -56,7 +58,9 @@ public class PanelResultados extends JPanel {
 		panelLeft.setLayout(new BorderLayout());
 		panelLeft.add(panelOperaciones, BorderLayout.NORTH);
 		panelLeft.add(panelRestricciones, BorderLayout.CENTER);
-		this.add(panelLeft, BorderLayout.NORTH);
+		JSplitPane splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelOperaciones, panelRestricciones);
+		panelLeft.add(splitPane1, BorderLayout.CENTER);
+		this.add(panelLeft, BorderLayout.WEST);
 
 		JPanel panelRight = new JPanel();
 		panelRight.setLayout(new BorderLayout());
