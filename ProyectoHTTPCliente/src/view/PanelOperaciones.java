@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 public class PanelOperaciones extends JPanel implements ChangeListener {
 
 	private String conParametro[] = new String[] { // Operaciones a realizar
-			"Sumar", "Restar", "Dividir", "Multiplicar", "Duplicar",
+			"Sumar", "Restar", "Dividir", "Multiplicar",
 			"Truncar parte decimal", "Redondear a n decimas"};
 
 	
