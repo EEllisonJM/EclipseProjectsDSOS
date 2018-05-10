@@ -143,6 +143,9 @@ public class Numero {
 	
 	public String redondear(String v, int numDecimales) {
 		String cad = "#.";
+		if (numDecimales==0) {
+			cad = "#";
+		}
 	 	for (int i=0;i<numDecimales;i++){
 	 		cad+="0";
 	 	}
