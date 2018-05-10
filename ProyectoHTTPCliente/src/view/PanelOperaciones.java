@@ -16,29 +16,28 @@ import javax.swing.event.ChangeListener;
 public class PanelOperaciones extends JPanel implements ChangeListener {
 
 	private String conParametro[] = new String[] { // Operaciones a realizar
-			"Sumar", "Restar", "Dividir", "Multiplicar",
-			"Truncar parte decimal", "Redondear a n decimas"};
+			"Sumar", "Restar", "Dividir", "Multiplicar", // 0,1,2,3
+			"Truncar parte decimal", "Redondear a n decimas"// 4,5
+	};
 
-	
-	private String[] sinParametro = new String[] {
-			"Obtener parte entera", "Obtner parte no entera"};
-	
+	private String[] sinParametro = new String[] { "Obtener parte entera", "Obtner parte no entera" };// 0,1
+
 	private JCheckBox[] jcheckRealizarCP, jcheckRealizarSP;
 	private JTextField[] jtfValor;
-	
+
 	private List<String> listaSin;// [String]
 	private List<Object[]> listaCon;// [String][Integer]
 
 	public PanelOperaciones() {
 		this.setBorder(BorderFactory.createTitledBorder("Realizar operaciones"));
-		this.setToolTipText("Realizar operaciones de +, -, *, /, etc.");
+		this.setToolTipText("Realizar operaciones Aritmeticas y redondeo");
 		this.setLayout(new GridLayout(0, 2));
-		//Operaciones que no requieren parametros
+		// Operaciones que no requieren parametros
 		jcheckRealizarSP = new JCheckBox[sinParametro.length];
-		//Operaciones que requieren de un parámetro
+		// Operaciones que requieren de un parï¿½metro
 		jcheckRealizarCP = new JCheckBox[conParametro.length];
 		jtfValor = new JTextField[conParametro.length];
-		
+
 		inicializarJCheckBoxs(jcheckRealizarCP, conParametro);
 		inicializarJCheckBoxs(jcheckRealizarSP, sinParametro);
 		inicializarCamposDeTexto(jtfValor);
@@ -60,7 +59,7 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 			jTextFields[i] = new JTextField();
 		}
 	}
-	
+
 	private void agrearComponente(JCheckBox[] jCheckBoxs) {
 		JTextField aux1[] = new JTextField[jCheckBoxs.length];
 		inicializarCamposDeTexto(aux1);
@@ -70,7 +69,7 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 			this.add(aux1[i]);
 		}
 	}
-	
+
 	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTF1) {
 		for (int i = 0; i < jCheckBoxs.length; i++) {
 			this.add(jCheckBoxs[i]);
@@ -87,7 +86,7 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 		}
 		return listaSin;
 	}
-	
+
 	public List<Object[]> getListaOperacionesConParametro() {
 		for (int i = 0; i < jcheckRealizarCP.length; i++) {
 			if (jcheckRealizarCP[i].isSelected()) {
@@ -98,9 +97,9 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 		}
 		return listaCon;
 	}
-	
+
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		
+
 	}
 }
