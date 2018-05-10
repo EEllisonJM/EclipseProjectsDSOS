@@ -56,9 +56,10 @@ public class PanelResultados extends JPanel {
 	public void agregarCompoenetes() {
 		JPanel panelLeft = new JPanel();
 		panelLeft.setLayout(new BorderLayout());
-		panelLeft.add(panelOperaciones, BorderLayout.NORTH);
-		panelLeft.add(panelRestricciones, BorderLayout.CENTER);
-		JSplitPane splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelOperaciones, panelRestricciones);
+		panelLeft.add(panelRestricciones, BorderLayout.NORTH);
+		panelLeft.add(panelOperaciones, BorderLayout.CENTER);
+
+		JSplitPane splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelRestricciones, panelOperaciones);
 		panelLeft.add(splitPane1, BorderLayout.CENTER);
 		this.add(panelLeft, BorderLayout.WEST);
 
