@@ -1,49 +1,39 @@
 package view;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class PanelOperaciones extends JPanel implements ChangeListener {
-
-	private String conParametro[] = new String[] { // Operaciones a realizar
+	
+	private String[] operaciones = new String[] { // Operaciones a realizar
+			//Operaciones con parametro
 			"Sumar", "Restar", "Dividir", "Multiplicar", // 0,1,2,3
-			"Truncar parte decimal", "Redondear a n decimas"// 4,5
-	};
+			"Truncar parte decimal", "Redondear a n decimas",// 4,5
+			//Operaciones que no requieren parámetro
+			"Obtener parte entera", "Obtner parte no entera" };// 6,7
 
-	private String[] sinParametro = new String[] { "Obtener parte entera", "Obtner parte no entera" };// 0,1
-
-	private JCheckBox[] jcheckRealizarCP, jcheckRealizarSP;
+	private List<Object[]> listaOperaciones = new ArrayList<Object[]>();//[String][Integer] y [String]
+	
+	private JCheckBox[] jcheckRealizar;
 	private JTextField[] jtfValor;
-
-	private List<String> listaSin;// [String]
-	private List<Object[]> listaCon;// [String][Integer]
 
 	public PanelOperaciones() {
 		this.setBorder(BorderFactory.createTitledBorder("Realizar operaciones"));
 		this.setToolTipText("Realizar operaciones Aritmeticas y redondeo");
 		this.setLayout(new GridLayout(0, 2));
-		// Operaciones que no requieren parametros
-		jcheckRealizarSP = new JCheckBox[sinParametro.length];
-		// Operaciones que requieren de un parï¿½metro
-		jcheckRealizarCP = new JCheckBox[conParametro.length];
-		jtfValor = new JTextField[conParametro.length];
-
-		inicializarJCheckBoxs(jcheckRealizarCP, conParametro);
-		inicializarJCheckBoxs(jcheckRealizarSP, sinParametro);
+		jcheckRealizar = new JCheckBox[operaciones.length];
+		jtfValor = new JTextField[operaciones.length];
+		inicializarJCheckBoxs(jcheckRealizar, operaciones);
 		inicializarCamposDeTexto(jtfValor);
-
-		agrearComponente(jcheckRealizarSP);
-		agrearComponente(jcheckRealizarCP, jtfValor);
+		agrearComponente(jcheckRealizar, jtfValor);
 	}
 
 	private void inicializarJCheckBoxs(JCheckBox jCheckBoxs[], String textos[]) {
@@ -60,46 +50,50 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 		}
 	}
 
-	private void agrearComponente(JCheckBox[] jCheckBoxs) {
-		JTextField aux1[] = new JTextField[jCheckBoxs.length];
-		inicializarCamposDeTexto(aux1);
-		for (int i = 0; i < jCheckBoxs.length; i++) {
-			aux1[i].setVisible(false);
+	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTextField) {
+		//Operaciones sin parámetros
+		for (int i = 6; i <= 7; i++) {
+			jTextField[i].setVisible(false);
 			this.add(jCheckBoxs[i]);
-			this.add(aux1[i]);
+			this.add(jTextField[i]);
+		}
+		//Operaciones que requieren de un parámetro
+		for (int i = 0; i <= 5; i++) {
+			this.add(jCheckBoxs[i]);
+			this.add(jTextField[i]);
 		}
 	}
-
-	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTF1) {
-		for (int i = 0; i < jCheckBoxs.length; i++) {
-			this.add(jCheckBoxs[i]);
-			this.add(jTF1[i]);
-		}
-	}
-
-	public List<String> getListaOperacionesSinParametro() {
-		for (int i = 0; i < jcheckRealizarSP.length; i++) {
-			if (jcheckRealizarSP[i].isSelected()) {
-				listaSin.add(sinParametro[i]);
-				System.out.println(sinParametro[i]);
+	
+	public List<Object[]> getListaOperaciones() {
+		listaOperaciones.removeAll(listaOperaciones);
+		//Operaciones que requieren de un parámetro
+		for (int i = 0; i <= 5; i++) {
+			if (jcheckRealizar[i].isSelected()) {
+				listaOperaciones.add(new Object[] { operaciones[i], jtfValor[i].getText() });
+				System.out.println(operaciones[i]+", "+jtfValor[i].getText());
 			}
 		}
-		return listaSin;
-	}
-
-	public List<Object[]> getListaOperacionesConParametro() {
-		for (int i = 0; i < jcheckRealizarCP.length; i++) {
-			if (jcheckRealizarCP[i].isSelected()) {
-				listaCon.add(new Object[] { conParametro[i], jtfValor[i] });
-				System.out.println(conParametro[i]);
-				System.out.println(jtfValor[i]);
+		//Operaciones que no requieren parámetro
+		for (int i = 6; i <= 7; i++) {
+			if (jcheckRealizar[i].isSelected()) {
+				listaOperaciones.add(new Object[] { operaciones[i] });
+				System.out.println(operaciones[i]);
 			}
 		}
-		return listaCon;
+		return listaOperaciones;
+	}
+	
+	public String[] getOperaciones() {
+		return operaciones;
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-
+		/*System.out.println("--> Agregando:");
+		getListaOperaciones();
+		System.out.println("--> Aqui inicia la lista:");
+		for(int i=0;i<listaOperaciones.size();i++) {
+			System.out.println(listaOperaciones.get(i).toString());
+		}*/
 	}
 }

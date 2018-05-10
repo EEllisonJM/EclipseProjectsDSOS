@@ -1,8 +1,8 @@
 
 package view;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -13,47 +13,35 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class PanelRestricciones extends JPanel implements ChangeListener {
-	private String[] sinParametro = new String[] { //
+	
+	private String[] restricciones = new String[] {
+			//Restricciones que no requieren parámetros
 			"Positivo", "Negativo", //0,1
 			"Par", "impar", //2,3
-			"Entero", "Punto flotante" };//4,5
-
-	private String[] unParametro = new String[] { "Mayor que", "Menor que", // 0[>], 1[<]
-			"Igual a", "Diferente de", // 2[==], 3[!=]
-			"Mayor o igual a", "Menor o Igual a" }; // 4[>=], 5[<=]
-
-	private String[] dosParametros = new String[] { "Rango", "No esta en el rango de" };//0,1
-
-	private JCheckBox[] jChecksSin, jChecksUn, jChecksDos;
-	private JTextField[] jTFun, jTFdos_1, jTFdos_2;
-
-	private List<String> listaSin;// [String]
-	private List<Object[]> listaUn;// [String][Integer]
-	private List<Object[]> listaDos;// [String][Integer][Integer]
+			"Entero", "Punto flotante",//4,5
+			//Requieren un parámetro
+			"Mayor que", "Menor que",//6,7
+			"Igual a", "Diferente de",//8,9
+			"Mayor o igual a", "Menor o Igual a",//10,11
+			//Requieren dos parámetros
+			"Rango", "No esta en el rango de" };//12,13
+	
+	private List<Object[]> listaRestricciones = new ArrayList<Object[]>();// [String], [String][Integer] o [String][Integer][Integer]
+	
+	private JCheckBox[] jChecks;
+	private JTextField[] jTextField1, jTextField2;
 
 	public PanelRestricciones() {
-		// this.setSize(new Dimension(30, 30));
 		this.setBorder(BorderFactory.createTitledBorder("Realizar restricciones"));
-		this.setToolTipText("Realizar restricciones (>, <, =, !=, >=, <=");
+		this.setToolTipText("Realizar restricciones >, <, =, !=, >=, <=, etc.");
 		this.setLayout(new GridLayout(0, 3));
-		// Restricciones sin parï¿½metro
-		jChecksSin = new JCheckBox[sinParametro.length];
-		// Restricciones que llevan un parï¿½metro
-		jChecksUn = new JCheckBox[unParametro.length];
-		jTFun = new JTextField[unParametro.length];
-		// Restricciones que llevan dos parï¿½metros
-		jChecksDos = new JCheckBox[dosParametros.length];
-		jTFdos_1 = new JTextField[dosParametros.length];
-		jTFdos_2 = new JTextField[dosParametros.length];
-		inicializarJCheckBoxs(jChecksSin, sinParametro);
-		inicializarJCheckBoxs(jChecksUn, unParametro);
-		inicializarJCheckBoxs(jChecksDos, dosParametros);
-		inicializarCamposDeTexto(jTFun);
-		inicializarCamposDeTexto(jTFdos_1);
-		inicializarCamposDeTexto(jTFdos_2);
-		agrearComponente(jChecksSin);
-		agrearComponente(jChecksUn, jTFun);
-		agrearComponente(jChecksDos, jTFdos_1, jTFdos_2);
+		jChecks = new JCheckBox[restricciones.length];
+		jTextField1 = new JTextField[restricciones.length];
+		jTextField2 = new JTextField[restricciones.length];
+		inicializarJCheckBoxs(jChecks, restricciones);
+		inicializarCamposDeTexto(jTextField1);
+		inicializarCamposDeTexto(jTextField2);
+		agrearComponente(jChecks, jTextField1, jTextField2);
 	}
 
 	private void inicializarJCheckBoxs(JCheckBox jCheckBoxs[], String textos[]) {
@@ -70,78 +58,67 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 		}
 	}
 
-	private void agrearComponente(JCheckBox[] jCheckBoxs) {
-		JTextField aux1[] = new JTextField[jCheckBoxs.length];
-		JTextField aux2[] = new JTextField[jCheckBoxs.length];
-		inicializarCamposDeTexto(aux1);
-		inicializarCamposDeTexto(aux2);
-		for (int i = 0; i < jCheckBoxs.length; i++) {
-			aux1[i].setVisible(false);
-			aux2[i].setVisible(false);
-			this.add(jCheckBoxs[i]);
-			this.add(aux1[i]);
-			this.add(aux2[i]);
-		}
-	}
-
-	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTextFields) {
-		JTextField aux1[] = new JTextField[jCheckBoxs.length];
-		inicializarCamposDeTexto(aux1);
-		for (int i = 0; i < jCheckBoxs.length; i++) {
-			aux1[i].setVisible(false);
-			this.add(jCheckBoxs[i]);
-			this.add(jTextFields[i]);
-			this.add(aux1[i]);
-		}
-	}
-
 	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTF1, JTextField[] jTF2) {
-		for (int i = 0; i < jCheckBoxs.length; i++) {
+		//No requieren parámetros
+		for (int i = 0; i <= 5; i++) {
+			jTF1[i].setVisible(false);
+			jTF2[i].setVisible(false);
+			this.add(jCheckBoxs[i]);
+			this.add(jTF1[i]);
+			this.add(jTF2[i]);
+		}
+		//Requieren un parámetro
+		for (int i = 6; i <= 11; i++) {
+			jTF2[i].setVisible(false);
+			this.add(jCheckBoxs[i]);
+			this.add(jTF1[i]);
+			this.add(jTF2[i]);
+		}
+		//Requieren dos parámetros
+		for (int i = 12; i <= 13; i++) {
 			this.add(jCheckBoxs[i]);
 			this.add(jTF1[i]);
 			this.add(jTF2[i]);
 		}
 	}
-
-	public List<String> getListaRestriccionesSinParametro() {
-		for (int i = 0; i < jChecksSin.length; i++) {
-			if (jChecksSin[i].isSelected()) {
-				listaSin.add(sinParametro[i]);
-				System.out.println(sinParametro[i]);
+	
+	public List<Object[]> getListaRestricciones() {
+		listaRestricciones.removeAll(listaRestricciones);
+		//No requieren parámetros
+		for (int i = 0; i <= 5; i++) {
+			if (jChecks[i].isSelected()) {
+				listaRestricciones.add(new Object[] { restricciones[i] });
+				System.out.println(restricciones[i]);
 			}
 		}
-		return listaSin;
-	}
-
-	public List<Object[]> getListaRestriccionesUnParametro() {
-		for (int i = 0; i < jChecksUn.length; i++) {
-			if (jChecksUn[i].isSelected()) {
-				listaUn.add(new Object[] { unParametro[i], jTFun[i] });
-				System.out.println(unParametro[i]);
-				System.out.println(jTFun[i]);
+		//Requieren un parámetro
+		for (int i = 6; i <= 11; i++) {
+			if (jChecks[i].isSelected()) {
+				listaRestricciones.add(new Object[] { restricciones[i], jTextField1[i].getText() });
+				System.out.println(restricciones[i]+", "+jTextField1[i].getText());
 			}
 		}
-		return listaUn;
-	}
-
-	public List<Object[]> getListaRestriccionesDosParametros() {
-		for (int i = 0; i < jChecksDos.length; i++) {
-			if (jChecksDos[i].isSelected()) {
-				listaDos.add(new Object[] { dosParametros[i], jTFdos_1[i], jTFdos_2[i] });
-				System.out.println(dosParametros[i]);
-				System.out.println(jTFdos_1[i]);
-				System.out.println(jTFdos_2[i]);
+		//Requieren 2 parámetros
+		for (int i = 12; i <= 13; i++) {
+			if (jChecks[i].isSelected()) {
+				listaRestricciones.add(new Object[] { restricciones[i], jTextField1[i].getText(), jTextField2[i].getText() });
+				System.out.println(restricciones[i]+", "+jTextField1[i].getText()+", "+jTextField2[i].getText());
 			}
 		}
-		return listaDos;
+		return listaRestricciones;
 	}
 
+	public String[] getRestricciones() {
+		return restricciones;
+	}
+	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
-		/*
-		 * if (jChecksDesIgualdades[0].isSelected() == true) {
-		 * System.out.println(jChecksDesIgualdades[0].getText()); }
-		 */
+		/*System.out.println("--> Agregando:");
+		getListaRestricciones();
+		System.out.println("--> Aqui inicia la lista:");
+		for(int i=0;i<listaRestricciones.size();i++) {
+			System.out.println(listaRestricciones.get(i).toString());
+		}*/
 	}
 }
