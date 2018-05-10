@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class GUI_Principal extends JFrame implements ActionListener {
+
 	private JTabbedPane tablaPaneles;
 	private JPanel panelPrincipal;
 	private PanelNodos panelNodos;
