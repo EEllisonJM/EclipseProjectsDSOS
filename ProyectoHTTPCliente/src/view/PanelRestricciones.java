@@ -13,19 +13,16 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class PanelRestricciones extends JPanel implements ChangeListener {
-	
-	private String[] sinParametro = new String[] {			
-			"Positivo", "Negativo",
-			"Par", "impar", 
-			"Entero", "Punto flotante"};
-	
-	private String[] unParametro = new String[] {		
-			"Mayor que", "Menor que", // 0[>], 1[<]
+	private String[] sinParametro = new String[] { //
+			"Positivo", "Negativo", //0,1
+			"Par", "impar", //2,3
+			"Entero", "Punto flotante" };//4,5
+
+	private String[] unParametro = new String[] { "Mayor que", "Menor que", // 0[>], 1[<]
 			"Igual a", "Diferente de", // 2[==], 3[!=]
-			"Mayor o igual a", "Menor o Igual a"}; // 4[>=], 5[<=]
-			
-	private String[] dosParametros = new String[] {
-			"Rango", "No esta en el rango de"};
+			"Mayor o igual a", "Menor o Igual a" }; // 4[>=], 5[<=]
+
+	private String[] dosParametros = new String[] { "Rango", "No esta en el rango de" };//0,1
 
 	private JCheckBox[] jChecksSin, jChecksUn, jChecksDos;
 	private JTextField[] jTFun, jTFdos_1, jTFdos_2;
@@ -35,16 +32,16 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 	private List<Object[]> listaDos;// [String][Integer][Integer]
 
 	public PanelRestricciones() {
-		//this.setSize(new Dimension(30, 30));
+		// this.setSize(new Dimension(30, 30));
 		this.setBorder(BorderFactory.createTitledBorder("Realizar restricciones"));
 		this.setToolTipText("Realizar restricciones (>, <, =, !=, >=, <=");
 		this.setLayout(new GridLayout(0, 3));
-		//Restricciones sin parámetro
+		// Restricciones sin parï¿½metro
 		jChecksSin = new JCheckBox[sinParametro.length];
-		//Restricciones que llevan un parámetro
+		// Restricciones que llevan un parï¿½metro
 		jChecksUn = new JCheckBox[unParametro.length];
 		jTFun = new JTextField[unParametro.length];
-		//Restricciones que llevan dos parámetros
+		// Restricciones que llevan dos parï¿½metros
 		jChecksDos = new JCheckBox[dosParametros.length];
 		jTFdos_1 = new JTextField[dosParametros.length];
 		jTFdos_2 = new JTextField[dosParametros.length];
@@ -86,7 +83,7 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 			this.add(aux2[i]);
 		}
 	}
-	
+
 	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTextFields) {
 		JTextField aux1[] = new JTextField[jCheckBoxs.length];
 		inicializarCamposDeTexto(aux1);
@@ -97,7 +94,7 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 			this.add(aux1[i]);
 		}
 	}
-	
+
 	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTF1, JTextField[] jTF2) {
 		for (int i = 0; i < jCheckBoxs.length; i++) {
 			this.add(jCheckBoxs[i]);
@@ -115,7 +112,7 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 		}
 		return listaSin;
 	}
-	
+
 	public List<Object[]> getListaRestriccionesUnParametro() {
 		for (int i = 0; i < jChecksUn.length; i++) {
 			if (jChecksUn[i].isSelected()) {
@@ -126,7 +123,7 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 		}
 		return listaUn;
 	}
-	
+
 	public List<Object[]> getListaRestriccionesDosParametros() {
 		for (int i = 0; i < jChecksDos.length; i++) {
 			if (jChecksDos[i].isSelected()) {
