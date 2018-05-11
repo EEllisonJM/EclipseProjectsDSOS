@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.server.Operation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +21,25 @@ import model.Nodo;
 
 public class PanelCompletados extends JPanel implements ChangeListener, ActionListener {
 	private List<Nodo> completados;
+	private PanelRestricciones restricciones;
+	private PanelOperaciones operaciones;
+
 	private JTextPane[] jTextos;
 	private JButton[] jBotones;
 	JTabbedPane tablaPaneles;
 
-	public PanelCompletados(List<Nodo> completados, JTabbedPane tablaPaneles) {
+	public PanelCompletados(//
+			List<Nodo> completados, // Solicitudes completadas
+			JTabbedPane tablaPaneles, // Paneles de Paneles[Tabulado]
+			PanelRestricciones restricciones, // Lista de Restriicones
+			PanelOperaciones operaciones) {// Lista de operaciones
+
 		this.completados = completados;
+		this.restricciones = restricciones;
+		this.operaciones = operaciones;
+
 		this.setBorder(BorderFactory.createTitledBorder("Solicitudes completadas"));
-		this.setToolTipText("Se muestran las solucitudes que fueron completadas con �xito");
+		this.setToolTipText("Se muestran las solucitudes que fueron completadas con exito");
 		this.setLayout(new GridLayout(0, 2));
 
 		jTextos = new JTextPane[completados.size()];
@@ -60,25 +72,24 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 		}
 	}
 
+	/* JButton [MostrarDatos] */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+	public void actionPerformed(ActionEvent e) { 
 		for (int i = 0; i < jBotones.length; i++) {
 			if (e.getSource() == jBotones[i]) {
 				try {
-					List<Object[]> restriccionesPlus = new ArrayList<>();
-					restriccionesPlus.add(new Object[] { "Positivo" });
-					restriccionesPlus.add(new Object[] { "MayorQue", 7 });
-
 					JPanel panelPrincipal = new JPanel(new GridLayout(1, 2));
-					
+					/* Panel con tabla oroginal */
 					JPanel panelTablaOriginal = new PanelTabla(completados.get(i).getUri().getHost());
 					panelTablaOriginal.setBorder(BorderFactory.createTitledBorder("Datos originales"));
 					panelTablaOriginal.setToolTipText("Se muestran los datos que fueron completadas con exito");
- 
-					JPanel panelTablaParseada = new PanelTabla(completados.get(i).getUri().getHost(),
-							restriccionesPlus);
+
+					/* Panel tabla datos procesados */
+					JPanel panelTablaParseada = new PanelTabla(//
+							completados.get(i).getUri().getHost(), // Nombre archivo a cargar [Host]
+							restricciones.getListaRestricciones(), // Lista restricciones
+							operaciones.getListaOperaciones());// Lista operaciones
+
 					panelTablaParseada.setBorder(BorderFactory.createTitledBorder("Datos procesados"));
 					panelTablaParseada
 							.setToolTipText("Se muestran los datos procesaos que fueron completadas con exito");
@@ -87,18 +98,16 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 					panelPrincipal.add(panelTablaParseada);
 					tablaPaneles.addTab("Datos", panelPrincipal);
 				} catch (IOException e1) {
+					System.out.println("Ups!, ");
 					e1.printStackTrace();
 				}
 				System.out.println("Paso por aqui");
-
 			}
 		}
-
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 }
