@@ -23,7 +23,6 @@ public class Numero {
 		} catch (NumberFormatException e) {
 			e.getMessage();
 		}
-
 	}
 
 	boolean existePunto(String v) {
