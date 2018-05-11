@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -22,7 +23,7 @@ public class Callback implements FutureCallback<HttpResponse> {
 	private List<Nodo> cancelados;
 	private CountDownLatch latch;
 	private URI uri;
-	// private long inicioSol;
+	private long inicioSol;
 
 	public Callback(CountDownLatch latch, URI uri, List<Nodo> completados, List<Nodo> fallidos, List<Nodo> cancelados) {
 		this.latch = latch;
@@ -30,26 +31,23 @@ public class Callback implements FutureCallback<HttpResponse> {
 		this.completados = completados;
 		this.fallidos = fallidos;
 		this.cancelados = cancelados;
-		// this.inicioSol = inicioSol;
+		this.inicioSol = System.currentTimeMillis();
 	}
 
 	public void completed(final HttpResponse response) {
 		latch.countDown();
-		// System.out.println(request.getRequestLine() + "->" +
-		// response.getStatusLine());
 		String contenido = "";
 		HttpEntity entity = response.getEntity();
 		try {
 			contenido = EntityUtils.toString(entity);
 			crearArchivo(contenido);
 		} catch (ParseException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		completados.add(new Nodo(uri));
-		// long tiempoSol = System.currentTimeMillis() - inicioSol;
-		// System.out.println("Terminando petici�n... ("+uri+")\nDuraci�n de la
-		// solicitud: "+tiempoSol+" milisegundos\n");
+		long tiempoSol = System.currentTimeMillis() - inicioSol;
+		System.out.println(
+				"Terminando peticion... (" + uri + ")\nDuracion de la solicitud: " + tiempoSol + " milisegundos\n");
 	}
 
 	@Override
@@ -57,9 +55,8 @@ public class Callback implements FutureCallback<HttpResponse> {
 		latch.countDown();
 		System.out.println("Solicitud a " + uri + " fallida, " + ex);
 		fallidos.add(new Nodo(uri));
-		// long tiempoSol = System.currentTimeMillis() - inicioSol;
-		// System.out.println("Terminando petici�n...\nDuraci�n de la solicitud:
-		// "+tiempoSol+" milisegundos\n");
+		long tiempoSol = System.currentTimeMillis() - inicioSol;
+		System.out.println("Terminando petici�n...\nDuraci�n de la solicitud:" + tiempoSol + " milisegundos\n");
 	}
 
 	@Override
@@ -67,9 +64,8 @@ public class Callback implements FutureCallback<HttpResponse> {
 		latch.countDown();
 		System.out.println("Solicitud a " + uri + " cancelada");
 		cancelados.add(new Nodo(uri));
-		// long tiempoSol = System.currentTimeMillis() - inicioSol;
-		// System.out.println("Terminando petici�n...\nDuraci�n de la solicitud:
-		// "+tiempoSol+" milisegundos\n");
+		long tiempoSol = System.currentTimeMillis() - inicioSol;
+		System.out.println("Terminando petici�n...\nDuraci�n de la solicitud: " + tiempoSol + " milisegundos\n");
 	}
 
 	private void crearArchivo(String contenido) throws IOException {
