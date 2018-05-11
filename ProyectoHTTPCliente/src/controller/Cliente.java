@@ -17,8 +17,6 @@ public class Cliente {
 	private List<Nodo> cancelados = new ArrayList();
 
 	public void solicitud(List<Nodo> nodos) throws Exception {
-
-		// long inicioApp = System.currentTimeMillis();
 		RequestConfig requestConfig = RequestConfig.custom().//
 				setSocketTimeout(3000).setConnectTimeout(3000).setConnectionRequestTimeout(3000).build();
 		CloseableHttpAsyncClient httpclient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).build();
@@ -30,21 +28,13 @@ public class Cliente {
 			}
 			final CountDownLatch latch = new CountDownLatch(requests.length);
 			for (final HttpGet request : requests) {
-				// System.out.println("Inicainado petici�n...");
-				// long inicioSol = System.currentTimeMillis();
 				Callback futureCallback = new Callback(latch, request.getURI(), completados, fallidos, cancelados);
 				httpclient.execute(request, futureCallback);
 			}
 			latch.await();
-			System.out.println("Shutting down");
 		} finally {
 			httpclient.close();
 		}
-		System.out.println("Done");
-
-		// long tiempoApp = System.currentTimeMillis() - inicioApp;
-		// System.out.println("\nDuraci�n de la aplicaci�n: "+tiempoApp+"
-		// milisegundos");
 	}
 
 	public List<Nodo> getCompletados() {
