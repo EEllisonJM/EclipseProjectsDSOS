@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -58,7 +59,7 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 			this.add(jButton[i]);
 		}
 	}
- 
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -66,10 +67,26 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 		for (int i = 0; i < jBotones.length; i++) {
 			if (e.getSource() == jBotones[i]) {
 				try {
-					JPanel panelTabla = new PanelTabla(completados.get(i).getUri().getHost());//Add operaciones,restricciones
-					tablaPaneles.addTab("Datos", panelTabla);
+					List<Object[]> restriccionesPlus = new ArrayList<>();
+					restriccionesPlus.add(new Object[] { "Positivo" });
+					restriccionesPlus.add(new Object[] { "MayorQue", 7 });
+
+					JPanel panelPrincipal = new JPanel(new GridLayout(1, 2));
+					
+					JPanel panelTablaOriginal = new PanelTabla(completados.get(i).getUri().getHost());
+					panelTablaOriginal.setBorder(BorderFactory.createTitledBorder("Datos originales"));
+					panelTablaOriginal.setToolTipText("Se muestran los datos que fueron completadas con exito");
+ 
+					JPanel panelTablaParseada = new PanelTabla(completados.get(i).getUri().getHost(),
+							restriccionesPlus);
+					panelTablaParseada.setBorder(BorderFactory.createTitledBorder("Datos procesados"));
+					panelTablaParseada
+							.setToolTipText("Se muestran los datos procesaos que fueron completadas con exito");
+
+					panelPrincipal.add(panelTablaOriginal);
+					panelPrincipal.add(panelTablaParseada);
+					tablaPaneles.addTab("Datos", panelPrincipal);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				System.out.println("Paso por aqui");
