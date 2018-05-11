@@ -25,6 +25,7 @@ public class GUI_Principal extends JFrame implements ActionListener {
 
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setVisible(true);
+		this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
