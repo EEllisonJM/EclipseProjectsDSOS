@@ -27,7 +27,7 @@ public class CSVHandler {
 
 	public CSVHandler(char delimitador) {
 		this.delimitador = delimitador;
-	} 
+	}
 
 	/* Lista de Arreglo de numeros */
 	public List<Numero[]> parsearArchivoNumeros(String rutaArchivo) throws IOException {
@@ -57,10 +57,11 @@ public class CSVHandler {
 	}
 
 	/* Lista de Arreglo de numeros */
-	public List<Numero[]> parsearArchivoNumerosRestricciones(String rutaArchivo, List<Object[]> restriccionesPlus
-	// PanelRestricciones panelRestricciones,
-	// PanelOperaciones panelOperaciones
-	) throws IOException {
+	public List<Numero[]> parsearArchivoNumerosRestricciones(//
+			String rutaArchivo, // Host name [file]
+			List<Object[]> restricciones, // Lista restricciones
+			List<Object[]> operaciones) throws IOException {// Lista Operaciones
+
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			numerosParseados = new ArrayList<>();
@@ -72,12 +73,18 @@ public class CSVHandler {
 				/* Working with Headers */
 				Numero arreNumeros[] = new Numero[registro.size()];
 				for (int i = 0; i < arreNumeros.length; i++) {
+					Numero numero = new Numero(registro.get(i));
 					try {
-						Numero numero = new Numero(registro.get(i));
-						arreNumeros[i] = (numero.aplicarRestricciones(restriccionesPlus)) ? numero : null;
+						if (numero.aplicarRestricciones(restricciones) == true) {
+							numero.aplicarOperaciones(operaciones);
+							arreNumeros[i] = numero;
 
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
+						} else {
+							arreNumeros[i] = null;
+						}
+
+					} catch (NumberFormatException e) {
+						System.out.println("Uff!!," + e.getMessage());
 					}
 				}
 				numerosParseados.add(arreNumeros);
