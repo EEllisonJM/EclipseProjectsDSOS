@@ -89,11 +89,5 @@ public class PanelOperaciones extends JPanel implements ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		/*
-		 * System.out.println("--> Agregando:"); getListaOperaciones();
-		 * System.out.println("--> Aqui inicia la lista:"); for(int
-		 * i=0;i<listaOperaciones.size();i++) {
-		 * System.out.println(listaOperaciones.get(i).toString()); }
-		 */
 	}
 }
