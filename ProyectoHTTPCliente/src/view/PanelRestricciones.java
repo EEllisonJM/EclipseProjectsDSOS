@@ -13,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class PanelRestricciones extends JPanel implements ChangeListener {
-
 	private String[] restricciones = new String[] {
 			// Restricciones que no requieren par�metros
 			"Positivo", "Negativo", // 0,1
