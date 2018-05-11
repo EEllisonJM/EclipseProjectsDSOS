@@ -13,15 +13,14 @@ import model.Numero;
 public class PanelTabla extends JPanel {
 	private JTable tabla;
 	private int maxColumnas;
-	private Object[][] datos;
 	private String[] encabezados;
 
-	/* Panel tabla procesado */
-	public PanelTabla(String host, List<Object[]> restriccionesPlus) throws IOException {
+	/* Panel tabla procesado */ 
+	public PanelTabla(String host, List<Object[]> restricciones, List<Object[]> operaciones) throws IOException {
 		/* Obtener Lista de Numeros */
 		CSVHandler csvHandler = new CSVHandler(',');
 		List<Numero[]> numeros = csvHandler.parsearArchivoNumerosRestricciones("archivos/" + host + ".csv",
-				restriccionesPlus);
+				restricciones, operaciones);
 		/* Crear Tabla con valores y encabezado */
 		tabla = new JTable(parsearListaNumeros(numeros), getEncabezado());
 		JScrollPane jScrollBar = new JScrollPane(tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -56,6 +55,7 @@ public class PanelTabla extends JPanel {
 	}
 
 	Object[][] parsearListaNumeros(List<Numero[]> numeros) {
+		Object[][] datos;
 		/* Obtener el maximo de columnas */
 		maxColumnas = numeros.get(0).length;
 		for (int i = 1; i < numeros.size(); i++) {
@@ -70,6 +70,8 @@ public class PanelTabla extends JPanel {
 				if (numeros.get(i)[j] != null) {
 					datos[i][j] = numeros.get(i)[j].getValor();
 					System.out.println(numeros.get(i)[j].getValor());
+				} else {
+					datos[i][j] = 0;
 				}
 			}
 		}
