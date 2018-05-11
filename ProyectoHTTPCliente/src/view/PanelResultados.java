@@ -36,7 +36,11 @@ public class PanelResultados extends JPanel {
 			e.printStackTrace();
 		}
 
-		panelCompletados = new PanelCompletados(cliente.getCompletados(), tablaPaneles);
+		panelCompletados = new PanelCompletados(//
+				cliente.getCompletados(), // Lista solicitud completada
+				tablaPaneles, // Panel de Paneles[Tabulado]
+				panelRestricciones, // Lista Restricciones
+				panelOperaciones);// Lista Operaciones
 		panelFallidos = new PanelFallidos(cliente.getFallidos());
 
 		agregarCompoenetes();
