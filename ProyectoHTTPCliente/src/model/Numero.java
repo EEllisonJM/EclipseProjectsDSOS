@@ -49,26 +49,26 @@ public class Numero {
 	}
 
 	public void setValor(Object valor) {
-		this.valor = (Float) valor;
+		this.valor = valor;
 	}
 
 	// Restricciones
 	public boolean esPositivo() {
-		if ((Float) valor > 0) {
+		if (Float.parseFloat(valor.toString()) > 0) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean esNegativo() {
-		if ((Float) valor < 0) {
+		if (Float.parseFloat(valor.toString()) < 0) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean esPar() {
-		if (((Float) valor % 2) == 0) {
+		if ((Float.parseFloat(valor.toString()) % 2) == 0) {
 			return true;
 		}
 		return false;
@@ -105,36 +105,36 @@ public class Numero {
 	}
 
 	public boolean igualA(Object n) {
-		return ((Float) valor == (Float) n) ? true : false;
+		return (Float.parseFloat(valor.toString()) == Float.parseFloat(n.toString())) ? true : false;
 	}
 
 	public boolean mayorIgualQue(Object n) {
-		return ((Float) valor >= (Float) n) ? true : false;
+		return (Float.parseFloat(valor.toString()) >= Float.parseFloat(n.toString())) ? true : false;
 	}
 
 	public boolean menorIgualQue(Object n) {
-		return ((Float) valor <= (Float) n) ? true : false;
+		return (Float.parseFloat(valor.toString()) <= Float.parseFloat(n.toString())) ? true : false;
 	}
 
 	public boolean diferenteA(Object n) {
-		return ((Float) valor != (Float) n) ? true : false;
+		return (Float.parseFloat(valor.toString()) != Float.parseFloat(n.toString())) ? true : false;
 	}
 
 	public boolean estaEnRango(Object x, Object y) {
-		if ((Float) valor >= (Float) x && (Float) valor <= (Float) y) {
+		if (Float.parseFloat(valor.toString()) >= Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) <= Float.parseFloat(y.toString())) {
 			return true;
 		}
-		if ((Float) valor <= (Float) x && (Float) valor >= (Float) y) {
+		if (Float.parseFloat(valor.toString()) <= Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) >= Float.parseFloat(y.toString())) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean noEstaEnRango(Object x, Object y) {
-		if ((Float) valor > (Float) x && (Float) valor > (Float) y) {
+		if (Float.parseFloat(valor.toString()) > Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) > Float.parseFloat(y.toString())) {
 			return true;
 		}
-		if ((Float) valor < (Float) x && (Float) valor < (Float) y) {
+		if (Float.parseFloat(valor.toString()) < Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) < Float.parseFloat(y.toString())) {
 			return true;
 		}
 		return false;
@@ -151,11 +151,11 @@ public class Numero {
 	}
 
 	public Object multiplicar(Object n) {
-		return (Float) valor * (Float) n;
+		return Float.parseFloat(valor.toString()) * Float.parseFloat(n.toString());
 	}
 
 	public Object dividir(Object n) {
-		return (Float) valor / (Float) n;
+		return Float.parseFloat(valor.toString()) / Float.parseFloat(n.toString());
 	}
 
 	public String truncar(String v, int numDecimales) {
@@ -166,6 +166,7 @@ public class Numero {
 		DecimalFormat formato = new DecimalFormat(cad);
 		formato.setRoundingMode(RoundingMode.DOWN);
 		v = formato.format(Double.parseDouble(v));
+		System.out.println(v);
 		return v;
 	}
 
@@ -180,6 +181,7 @@ public class Numero {
 		DecimalFormat formato = new DecimalFormat(cad);
 		formato.setRoundingMode(RoundingMode.HALF_UP);
 		v = formato.format(Double.parseDouble(v));
+		System.out.println(v);
 		return v;
 	}
 
@@ -191,6 +193,9 @@ public class Numero {
 	}
 
 	public String obtenerParteNoEntera(String v) {
+		if (esEntero()) {
+			return "0";
+		}
 		return v.substring(v.indexOf('.') + 1);
 	}
 
@@ -252,7 +257,7 @@ public class Numero {
 		return true;
 	}
 
-	void procesar1(String s) {
+	private void procesar1(String s) {
 		switch (s) {
 		case "Positivo":
 			listaRestricciones.add(esPositivo());
@@ -263,10 +268,19 @@ public class Numero {
 		case "Par":
 			listaRestricciones.add(esPar());
 			break;
+		case "impar":
+			listaRestricciones.add(esImpar());
+			break;
+		case "Entero":
+			listaRestricciones.add(esEntero());
+			break;
+		case "Punto flotante":
+			listaRestricciones.add(esFlotante());
+			break;
 		}
 	}
 
-	void procesar2(String s, Object valor) {
+	private void procesar2(String s, Object valor) {
 		switch (s) {
 		case "Mayor que":
 			listaRestricciones.add(mayorQue(valor));
@@ -274,23 +288,35 @@ public class Numero {
 		case "Menor que":
 			listaRestricciones.add(menorQue(valor));
 			break;
+		case "Igual a":
+			listaRestricciones.add(igualA(valor));
+			break;
+		case "Diferente de":
+			listaRestricciones.add(diferenteA(valor));
+			break;
+		case "Mayor o igual a":
+			listaRestricciones.add(mayorIgualQue(valor));
+			break;
+		case "Menor o Igual a":
+			listaRestricciones.add(menorIgualQue(valor));
+			break;
 		}
 	}
 
-	void procesar3(String s, Object valor1, Object valor2) {
+	private void procesar3(String s, Object valor1, Object valor2) {
 		switch (s) {
-		case "Mayor que":
-			listaRestricciones.add(mayorQue(valor));
+		case "Rango":
+			listaRestricciones.add(estaEnRango(valor1, valor2));
 			break;
-		case "Menor que":
-			listaRestricciones.add(menorQue(valor));
+		case "No esta en el rango de":
+			listaRestricciones.add(noEstaEnRango(valor1, valor2));
 			break;
 		}
 	}
 
 	public void aplicarOperaciones(List<Object[]> operaciones) {
 		System.out.println("Aplicar operaciones");
-		String[] realizarOperaciones = new String[] { // Operaciones a realizar
+		String[] nombresOperaciones = new String[] { // Operaciones a realizar
 				// Operaciones con parametro
 				"Sumar", "Restar", "Dividir", "Multiplicar", // 0,1,2,3
 				"Truncar parte decimal", "Redondear a n decimas", // 4,5
@@ -299,17 +325,17 @@ public class Numero {
 		System.out.println("Operaciones size" + operaciones.size());
 		for (int i = 0; i < operaciones.size(); i++) {
 			System.out.println("___" + operaciones.get(i)[0].toString());
-			for (int j = 0; j < realizarOperaciones.length; j++) {
+			for (int j = 0; j < nombresOperaciones.length; j++) {
 				System.out.println("continua");
 				if (operaciones.get(i).length == 1) {// 0,1,2
-					if (realizarOperaciones[j].equals(operaciones.get(i)[0].toString())) {
-						// procesarOperacion1(operaciones[j]);
+					if (nombresOperaciones[j].equals(operaciones.get(i)[0].toString())) {
+						procesarOperacion1(operaciones.get(i)[0].toString());
 						break;
 					}
 				}
 				if (operaciones.get(i).length == 2) {// 3,4
-					if (realizarOperaciones[j].equals(operaciones.get(j)[0])) {
-						procesarOperacion2(realizarOperaciones[i], Float.parseFloat(operaciones.get(i)[1] + ""));
+					if (nombresOperaciones[j].equals(operaciones.get(i)[0])) {
+						procesarOperacion2(nombresOperaciones[j], Float.parseFloat(operaciones.get(i)[1] + ""));
 						break;
 					}
 				}
@@ -318,20 +344,18 @@ public class Numero {
 		System.out.println("Aplicar finalizado");
 	}
 
-	void procesarOperacion1(String v) {
+	private void procesarOperacion1(String v) {
 		switch (v) {
-		case "s":
+		case "Obtener parte entera":
+			this.setValor(obtenerParteEntera(valor.toString()));
 			break;
-		case "a":
-			break;
-		case "d":
-			break;
-		case "g":
+		case "Obtner parte no entera":
+			this.setValor(obtenerParteNoEntera(valor.toString()));
 			break;
 		}
 	}
 
-	void procesarOperacion2(String s, Object valor) {
+	private void procesarOperacion2(String s, Object valor) {
 		System.out.println("[" + s + " " + valor + "]");
 		switch (s) {
 		case "Sumar":
@@ -345,6 +369,12 @@ public class Numero {
 			break;
 		case "Multiplicar":
 			this.setValor(multiplicar(valor));
+			break;
+		case "Truncar parte decimal":
+			this.valor = (truncar(this.valor.toString(), (int)Float.parseFloat(valor.toString())));
+			break;
+		case "Redondear a n decimas":
+			this.valor= (redondear(this.valor.toString(), (int)Float.parseFloat(valor.toString())));
 			break;
 		}
 
