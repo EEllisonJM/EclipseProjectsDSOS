@@ -8,20 +8,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import model.Nodo;
 import model.Numero;
-import view.PanelOperaciones;
-import view.PanelRestricciones;
 
 public class CSVHandler {
-	List<Numero[]> numeros;
-	List<Numero[]> numerosParseados;
-
-	List<Nodo> nodos;
+	private List<Numero[]> numeros;
+	private List<Numero[]> numerosParseados;
+	private List<Nodo> nodos;
 	private Path ubicacionArchivoCSV;
 	private char delimitador;
 
@@ -34,7 +30,6 @@ public class CSVHandler {
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			numeros = new ArrayList<>();
-
 			/* Accessing column values by index */
 			Reader lectorArchivo = new FileReader(ubicacionArchivoCSV.toString());
 			Iterable<CSVRecord> registros = CSVFormat.newFormat(delimitador).parse(lectorArchivo);
@@ -61,11 +56,9 @@ public class CSVHandler {
 			String rutaArchivo, // Host name [file]
 			List<Object[]> restricciones, // Lista restricciones
 			List<Object[]> operaciones) throws IOException {// Lista Operaciones
-
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			numerosParseados = new ArrayList<>();
-
 			/* Accessing column values by index */
 			Reader lectorArchivo = new FileReader(ubicacionArchivoCSV.toString());
 			Iterable<CSVRecord> registros = CSVFormat.newFormat(delimitador).parse(lectorArchivo);
@@ -78,13 +71,12 @@ public class CSVHandler {
 						if (numero.aplicarRestricciones(restricciones) == true) {
 							numero.aplicarOperaciones(operaciones);
 							arreNumeros[i] = numero;
-
 						} else {
 							arreNumeros[i] = null;
 						}
 
 					} catch (NumberFormatException e) {
-						System.out.println("Uff!!," + e.getMessage());
+						System.out.println(e.getMessage());
 					}
 				}
 				numerosParseados.add(arreNumeros);
@@ -100,7 +92,6 @@ public class CSVHandler {
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			numeros = new ArrayList<>();
-
 			/* Accessing column values by index */
 			Reader lectorArchivo = new FileReader(ubicacionArchivoCSV.toString());
 			Iterable<CSVRecord> registros = CSVFormat.newFormat(delimitador).parse(lectorArchivo);
@@ -122,7 +113,7 @@ public class CSVHandler {
 		return null;
 	}
 
-	public List<Nodo> leerArchivoNodos(String rutaArchivo,String nombreArchivo,int puerto) throws IOException {
+	public List<Nodo> leerArchivoNodos(String rutaArchivo, String nombreArchivo, int puerto) throws IOException {
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			nodos = new ArrayList<>();
@@ -132,7 +123,7 @@ public class CSVHandler {
 			for (CSVRecord registro : registros) {
 				/* Working with Headers */
 				try {
-					nodos.add(new Nodo("http", registro.get(0), puerto, "/"+nombreArchivo));
+					nodos.add(new Nodo("http", registro.get(0), puerto, "/" + nombreArchivo));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
