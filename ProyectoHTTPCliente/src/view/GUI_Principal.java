@@ -47,7 +47,8 @@ public class GUI_Principal extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		PanelResultados panelResultados = new PanelResultados(tablaPaneles, panelNodos.getJtfRutaCSV());
+		PanelResultados panelResultados = new PanelResultados(tablaPaneles, panelNodos.getJtfRutaCSV(),
+				panelNodos.getJtfNombreArchivo(), Integer.parseInt(panelNodos.getJtfPuerto()));
 	}
 
 	public static void main(String[] args) {

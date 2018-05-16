@@ -122,7 +122,7 @@ public class CSVHandler {
 		return null;
 	}
 
-	public List<Nodo> leerArchivoNodos(String rutaArchivo) throws IOException {
+	public List<Nodo> leerArchivoNodos(String rutaArchivo,String nombreArchivo,int puerto) throws IOException {
 		ubicacionArchivoCSV = Paths.get(rutaArchivo);
 		if (Files.exists(ubicacionArchivoCSV)) {
 			nodos = new ArrayList<>();
@@ -132,7 +132,7 @@ public class CSVHandler {
 			for (CSVRecord registro : registros) {
 				/* Working with Headers */
 				try {
-					nodos.add(new Nodo("http", registro.get(0), 1234, "/nombres.csv"));
+					nodos.add(new Nodo("http", registro.get(0), puerto, "/"+nombreArchivo));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}

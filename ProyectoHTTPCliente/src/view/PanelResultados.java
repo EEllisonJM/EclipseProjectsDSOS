@@ -15,7 +15,6 @@ import controller.CSVHandler;
 import controller.Cliente;
 
 public class PanelResultados extends JPanel {
-	// private JPanel panelResultados;
 	private PanelCompletados panelCompletados;
 	private PanelFallidos panelFallidos;
 	private PanelOperaciones panelOperaciones;
@@ -24,12 +23,12 @@ public class PanelResultados extends JPanel {
 	private CSVHandler csvHandler;
 	Cliente cliente;
 
-	public PanelResultados(JTabbedPane tablaPaneles, String ruta) {
+	public PanelResultados(JTabbedPane tablaPaneles, String ruta, String nombreArchivo, int puerto) {
 		this.setLayout(new BorderLayout());
 		inicializarComponenetes(ruta);
 
 		try {
-			cliente.solicitud(csvHandler.leerArchivoNodos(ruta));
+			cliente.solicitud(csvHandler.leerArchivoNodos(ruta, nombreArchivo, puerto));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

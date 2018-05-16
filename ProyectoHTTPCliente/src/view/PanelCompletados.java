@@ -1,18 +1,17 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.rmi.server.Operation;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -74,11 +73,12 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 
 	/* JButton [MostrarDatos] */
 	@Override
-	public void actionPerformed(ActionEvent e) { 
+	public void actionPerformed(ActionEvent e) {
 		for (int i = 0; i < jBotones.length; i++) {
 			if (e.getSource() == jBotones[i]) {
 				try {
-					JPanel panelPrincipal = new JPanel(new GridLayout(1, 2));
+					JPanel panelPrincipal = new JPanel(new BorderLayout());
+					JPanel panelSecundario = new JPanel(new GridLayout(1, 2));
 					/* Panel con tabla oroginal */
 					JPanel panelTablaOriginal = new PanelTabla(completados.get(i).getUri().getHost());
 					panelTablaOriginal.setBorder(BorderFactory.createTitledBorder("Datos originales"));
@@ -94,8 +94,19 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 					panelTablaParseada
 							.setToolTipText("Se muestran los datos procesaos que fueron completadas con exito");
 
-					panelPrincipal.add(panelTablaOriginal);
-					panelPrincipal.add(panelTablaParseada);
+					panelSecundario.add(panelTablaOriginal);
+					panelSecundario.add(panelTablaParseada);
+					JPanel panel = new JPanel(new FlowLayout());
+					panel.add(new JLabel("Host :" + jTextos[i].getText().toString()));
+					System.out.println("Tamaño restricciones " + restricciones.getListaRestricciones().size());
+					for (int j = 0; j < restricciones.getListaRestricciones().size(); j++) {
+						//System.out.println(restricciones.getListaRestricciones().get(j).toString());
+					panel.add(new JLabel(restricciones.getListaRestricciones().get(j)[0].toString()));
+					}
+					System.out.println("----.-----");
+					panelPrincipal.add(panel, BorderLayout.NORTH);
+
+					panelPrincipal.add(panelSecundario, BorderLayout.CENTER);
 					tablaPaneles.addTab("Datos", panelPrincipal);
 				} catch (IOException e1) {
 					System.out.println("Ups!, ");

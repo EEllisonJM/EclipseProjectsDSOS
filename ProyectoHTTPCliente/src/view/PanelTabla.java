@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.plaf.TableHeaderUI;
+import javax.swing.table.JTableHeader;
+
 import controller.CSVHandler;
 import model.Numero;
 
@@ -15,7 +19,7 @@ public class PanelTabla extends JPanel {
 	private int maxColumnas;
 	private String[] encabezados;
 
-	/* Panel tabla procesado */ 
+	/* Panel tabla procesado */
 	public PanelTabla(String host, List<Object[]> restricciones, List<Object[]> operaciones) throws IOException {
 		/* Obtener Lista de Numeros */
 		CSVHandler csvHandler = new CSVHandler(',');
@@ -71,7 +75,7 @@ public class PanelTabla extends JPanel {
 					datos[i][j] = numeros.get(i)[j].getValor();
 					System.out.println(numeros.get(i)[j].getValor());
 				} else {
-					datos[i][j] = 0;
+					datos[i][j] = "X";
 				}
 			}
 		}
