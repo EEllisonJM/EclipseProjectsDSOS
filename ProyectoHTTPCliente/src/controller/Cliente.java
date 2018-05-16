@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
@@ -12,11 +11,15 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import model.Nodo;
 
 public class Cliente {
-	private List<Nodo> completados = new ArrayList();
-	private List<Nodo> fallidos = new ArrayList();
-	private List<Nodo> cancelados = new ArrayList();
+	private List<Nodo> completados;
+	private List<Nodo> fallidos;
+	private List<Nodo> cancelados;
 
 	public void solicitud(List<Nodo> nodos) throws Exception {
+		completados = new ArrayList<Nodo>();
+		fallidos = new ArrayList<Nodo>();
+		cancelados = new ArrayList<Nodo>();
+
 		RequestConfig requestConfig = RequestConfig.custom().//
 				setSocketTimeout(3000).setConnectTimeout(3000).setConnectionRequestTimeout(3000).build();
 		CloseableHttpAsyncClient httpclient = HttpAsyncClients.custom().setDefaultRequestConfig(requestConfig).build();
