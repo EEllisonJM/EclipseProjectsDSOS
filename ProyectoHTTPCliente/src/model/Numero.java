@@ -19,12 +19,9 @@ public class Numero {
 
 	public Numero(String valor) {
 		try {
-			this.valor = getTipo(valor);
-			System.out.println(this.valor.getClass().getSimpleName().toString());
-
+			this.valor = getTipo(valor);/* [Integer] | [Float] */
 		} catch (NumberFormatException e) {
 			System.out.println("Error : No es un numero");
-			;
 		}
 	}
 
@@ -121,20 +118,24 @@ public class Numero {
 	}
 
 	public boolean estaEnRango(Object x, Object y) {
-		if (Float.parseFloat(valor.toString()) >= Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) <= Float.parseFloat(y.toString())) {
+		if (Float.parseFloat(valor.toString()) >= Float.parseFloat(x.toString())
+				&& Float.parseFloat(valor.toString()) <= Float.parseFloat(y.toString())) {
 			return true;
 		}
-		if (Float.parseFloat(valor.toString()) <= Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) >= Float.parseFloat(y.toString())) {
+		if (Float.parseFloat(valor.toString()) <= Float.parseFloat(x.toString())
+				&& Float.parseFloat(valor.toString()) >= Float.parseFloat(y.toString())) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean noEstaEnRango(Object x, Object y) {
-		if (Float.parseFloat(valor.toString()) > Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) > Float.parseFloat(y.toString())) {
+		if (Float.parseFloat(valor.toString()) > Float.parseFloat(x.toString())
+				&& Float.parseFloat(valor.toString()) > Float.parseFloat(y.toString())) {
 			return true;
 		}
-		if (Float.parseFloat(valor.toString()) < Float.parseFloat(x.toString()) && Float.parseFloat(valor.toString()) < Float.parseFloat(y.toString())) {
+		if (Float.parseFloat(valor.toString()) < Float.parseFloat(x.toString())
+				&& Float.parseFloat(valor.toString()) < Float.parseFloat(y.toString())) {
 			return true;
 		}
 		return false;
@@ -200,7 +201,6 @@ public class Numero {
 	}
 
 	public boolean aplicarRestricciones(List<Object[]> restricciones) {
-		System.out.println("Aplicar restricciones");
 		String[] nameRestricciones = new String[] {
 				// Restricciones que no requieren par�metros
 				"Positivo", "Negativo", // 0,1
@@ -215,17 +215,8 @@ public class Numero {
 		// String[] nameRestricciones = new String[] { "Positivo", "Negativo", "Par",
 		// "Mayor que", "Menor que" };
 		listaRestricciones = new ArrayList<>();
-		System.out.println("Restricciones Size: " + restricciones.size());
-		System.out.println("NameRestricciones Size: " + nameRestricciones.length);
 		for (int i = 0; i < restricciones.size(); i++) {
 			for (int j = 0; j < nameRestricciones.length; j++) {
-				if (restricciones.get(i)[0].toString().equals(nameRestricciones[j])) {
-					System.out.println("Tam" + restricciones.get(i).length);
-					System.out.println("<--->" + restricciones.get(i)[0].toString().equals(nameRestricciones[j]));
-					System.out.println(restricciones.get(i)[0].toString());
-					System.out.println(nameRestricciones[j].toString());
-
-				}
 				if (restricciones.get(i).length == 1) {// 0,1,2
 					if (restricciones.get(i)[0].toString().equals(nameRestricciones[j].toString())) {
 						procesar1(nameRestricciones[j]);
@@ -244,16 +235,14 @@ public class Numero {
 						break;
 					}
 				}
-			} // End for
-		} // End for
+			}
+		}
 
 		for (int i = 0; i < listaRestricciones.size(); i++) {
 			if (listaRestricciones.get(i) == false) {
-				System.out.println("[false");
 				return false;
 			}
 		}
-		System.out.println("true]");
 		return true;
 	}
 
@@ -315,18 +304,14 @@ public class Numero {
 	}
 
 	public void aplicarOperaciones(List<Object[]> operaciones) {
-		System.out.println("Aplicar operaciones");
 		String[] nombresOperaciones = new String[] { // Operaciones a realizar
 				// Operaciones con parametro
 				"Sumar", "Restar", "Dividir", "Multiplicar", // 0,1,2,3
 				"Truncar parte decimal", "Redondear a n decimas", // 4,5
 				// Operaciones que no requineren par�metro
 				"Obtener parte entera", "Obtner parte no entera" };// 6,7
-		System.out.println("Operaciones size" + operaciones.size());
 		for (int i = 0; i < operaciones.size(); i++) {
-			System.out.println("___" + operaciones.get(i)[0].toString());
 			for (int j = 0; j < nombresOperaciones.length; j++) {
-				System.out.println("continua");
 				if (operaciones.get(i).length == 1) {// 0,1,2
 					if (nombresOperaciones[j].equals(operaciones.get(i)[0].toString())) {
 						procesarOperacion1(operaciones.get(i)[0].toString());
@@ -341,7 +326,6 @@ public class Numero {
 				}
 			}
 		}
-		System.out.println("Aplicar finalizado");
 	}
 
 	private void procesarOperacion1(String v) {
@@ -356,7 +340,6 @@ public class Numero {
 	}
 
 	private void procesarOperacion2(String s, Object valor) {
-		System.out.println("[" + s + " " + valor + "]");
 		switch (s) {
 		case "Sumar":
 			this.setValor(sumar(valor));
@@ -371,13 +354,11 @@ public class Numero {
 			this.setValor(multiplicar(valor));
 			break;
 		case "Truncar parte decimal":
-			this.valor = (truncar(this.valor.toString(), (int)Float.parseFloat(valor.toString())));
+			this.valor = (truncar(this.valor.toString(), (int) Float.parseFloat(valor.toString())));
 			break;
 		case "Redondear a n decimas":
-			this.valor= (redondear(this.valor.toString(), (int)Float.parseFloat(valor.toString())));
+			this.valor = (redondear(this.valor.toString(), (int) Float.parseFloat(valor.toString())));
 			break;
 		}
-
 	}
-
 }
