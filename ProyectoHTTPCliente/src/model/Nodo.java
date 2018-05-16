@@ -7,6 +7,7 @@ import org.apache.http.client.utils.URIBuilder;
 public class Nodo {
 	private URI uri;
 
+	/* [Ejemplo] Constructor Nodo("http","localhost",1234,"datos.csv" */
 	public Nodo(String schema, String host, int port, String path) throws URISyntaxException {
 		uri = new URIBuilder()//
 				.setScheme(schema)// "http"
@@ -14,7 +15,7 @@ public class Nodo {
 				.setPort(port).setPath(path)// "/search"
 				.build();
 	}
-	
+
 	public Nodo(URI uri) {
 		this.uri = uri;
 	}
