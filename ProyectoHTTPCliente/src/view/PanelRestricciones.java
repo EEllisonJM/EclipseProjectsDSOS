@@ -59,7 +59,7 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 	}
 
 	private void agrearComponente(JCheckBox[] jCheckBoxs, JTextField[] jTF1, JTextField[] jTF2) {
-		// No requieren par�metros
+		// No requieren parametros
 		for (int i = 0; i <= 5; i++) {
 			jTF1[i].setVisible(false);
 			jTF2[i].setVisible(false);
@@ -67,14 +67,14 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 			this.add(jTF1[i]);
 			this.add(jTF2[i]);
 		}
-		// Requieren un par�metro
+		// Requieren un parametro
 		for (int i = 6; i <= 11; i++) {
 			jTF2[i].setVisible(false);
 			this.add(jCheckBoxs[i]);
 			this.add(jTF1[i]);
 			this.add(jTF2[i]);
 		}
-		// Requieren dos par�metros
+		// Requieren dos parametros
 		for (int i = 12; i <= 13; i++) {
 			this.add(jCheckBoxs[i]);
 			this.add(jTF1[i]);
@@ -84,27 +84,23 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 
 	public List<Object[]> getListaRestricciones() {
 		listaRestricciones.removeAll(listaRestricciones);
-		// No requieren par�metros
+		// No requieren parametros
 		for (int i = 0; i <= 5; i++) {
 			if (jChecks[i].isSelected()) {
 				listaRestricciones.add(new Object[] { restricciones[i] });
-				System.out.println(restricciones[i]);
 			}
 		}
-		// Requieren un par�metro
+		// Requieren un parametro
 		for (int i = 6; i <= 11; i++) {
 			if (jChecks[i].isSelected()) {
 				listaRestricciones.add(new Object[] { restricciones[i], jTextField1[i].getText() });
-				System.out.println(restricciones[i] + ", " + jTextField1[i].getText());
 			}
 		}
-		// Requieren 2 par�metros
+		// Requieren 2 parametros
 		for (int i = 12; i <= 13; i++) {
 			if (jChecks[i].isSelected()) {
 				listaRestricciones
 						.add(new Object[] { restricciones[i], jTextField1[i].getText(), jTextField2[i].getText() });
-				System.out
-						.println(restricciones[i] + ", " + jTextField1[i].getText() + ", " + jTextField2[i].getText());
 			}
 		}
 		return listaRestricciones;
@@ -116,11 +112,5 @@ public class PanelRestricciones extends JPanel implements ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		/*
-		 * System.out.println("--> Agregando:"); getListaRestricciones();
-		 * System.out.println("--> Aqui inicia la lista:"); for(int
-		 * i=0;i<listaRestricciones.size();i++) {
-		 * System.out.println(listaRestricciones.get(i).toString()); }
-		 */
 	}
 }
