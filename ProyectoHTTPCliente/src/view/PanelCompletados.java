@@ -25,7 +25,7 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 
 	private JTextPane[] jTextos;
 	private JButton[] jBotones;
-	JTabbedPane tablaPaneles;
+	private JTabbedPane tablaPaneles;
 
 	public PanelCompletados(//
 			List<Nodo> completados, // Solicitudes completadas
@@ -79,40 +79,48 @@ public class PanelCompletados extends JPanel implements ChangeListener, ActionLi
 				try {
 					JPanel panelPrincipal = new JPanel(new BorderLayout());
 					JPanel panelSecundario = new JPanel(new GridLayout(1, 2));
-					/* Panel con tabla oroginal */
+					/* Panel con tabla original */
 					JPanel panelTablaOriginal = new PanelTabla(completados.get(i).getUri().getHost());
 					panelTablaOriginal.setBorder(BorderFactory.createTitledBorder("Datos originales"));
 					panelTablaOriginal.setToolTipText("Se muestran los datos que fueron completadas con exito");
-
 					/* Panel tabla datos procesados */
 					JPanel panelTablaParseada = new PanelTabla(//
 							completados.get(i).getUri().getHost(), // Nombre archivo a cargar [Host]
 							restricciones.getListaRestricciones(), // Lista restricciones
 							operaciones.getListaOperaciones());// Lista operaciones
-
 					panelTablaParseada.setBorder(BorderFactory.createTitledBorder("Datos procesados"));
 					panelTablaParseada
-							.setToolTipText("Se muestran los datos procesaos que fueron completadas con exito");
+							.setToolTipText("Se muestran los datos procesados que fueron completadas con exito");
 
 					panelSecundario.add(panelTablaOriginal);
 					panelSecundario.add(panelTablaParseada);
-					JPanel panel = new JPanel(new FlowLayout());
-					panel.add(new JLabel("Host :" + jTextos[i].getText().toString()));
-					System.out.println("Tamaño restricciones " + restricciones.getListaRestricciones().size());
-					for (int j = 0; j < restricciones.getListaRestricciones().size(); j++) {
-						//System.out.println(restricciones.getListaRestricciones().get(j).toString());
-					panel.add(new JLabel(restricciones.getListaRestricciones().get(j)[0].toString()));
-					}
-					System.out.println("----.-----");
-					panelPrincipal.add(panel, BorderLayout.NORTH);
 
+					JPanel panel = new JPanel(new FlowLayout());
+					panel.add(new JLabel("Host :[" + jTextos[i].getText().toString() + "]"));
+
+					for (int j = 0; j < restricciones.getListaRestricciones().size(); j++) {
+						if (restricciones.getListaRestricciones().get(j).length == 1) {
+							panel.add(
+									new JLabel("[" + restricciones.getListaRestricciones().get(j)[0].toString() + "]"));
+						}
+						if (restricciones.getListaRestricciones().get(j).length == 2) {
+							panel.add(new JLabel("[" + restricciones.getListaRestricciones().get(j)[0].toString()
+									+ " : " + restricciones.getListaRestricciones().get(j)[1].toString() + "]"));
+						}
+						if (restricciones.getListaRestricciones().get(j).length == 3) {
+							panel.add(new JLabel("[" + restricciones.getListaRestricciones().get(j)[0].toString()
+									+ " : (" + restricciones.getListaRestricciones().get(j)[1].toString() + " - "
+									+ restricciones.getListaRestricciones().get(j)[2].toString() + ")]"));
+						}
+
+					}
+					panelPrincipal.add(panel, BorderLayout.NORTH);
 					panelPrincipal.add(panelSecundario, BorderLayout.CENTER);
 					tablaPaneles.addTab("Datos", panelPrincipal);
 				} catch (IOException e1) {
-					System.out.println("Ups!, ");
-					e1.printStackTrace();
+					System.out.println(e1.getMessage());
 				}
-				System.out.println("Paso por aqui");
+
 			}
 		}
 	}
