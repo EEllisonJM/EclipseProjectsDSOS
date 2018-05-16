@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -56,7 +54,7 @@ public class Callback implements FutureCallback<HttpResponse> {
 		System.out.println("Solicitud a " + uri + " fallida, " + ex);
 		fallidos.add(new Nodo(uri));
 		long tiempoSol = System.currentTimeMillis() - inicioSol;
-		System.out.println("Terminando petici�n...\nDuraci�n de la solicitud:" + tiempoSol + " milisegundos\n");
+		System.out.println("Terminando peticion...\nDuracion de la solicitud:" + tiempoSol + " milisegundos\n");
 	}
 
 	@Override
@@ -65,16 +63,16 @@ public class Callback implements FutureCallback<HttpResponse> {
 		System.out.println("Solicitud a " + uri + " cancelada");
 		cancelados.add(new Nodo(uri));
 		long tiempoSol = System.currentTimeMillis() - inicioSol;
-		System.out.println("Terminando petici�n...\nDuraci�n de la solicitud: " + tiempoSol + " milisegundos\n");
+		System.out.println("Terminando peticion...\nDuracion de la solicitud: " + tiempoSol + " milisegundos\n");
 	}
 
+	/* Guardar archivo Host */
 	private void crearArchivo(String contenido) throws IOException {
 		File temp = new File("archivos/" + uri.getHost() + ".csv");
 		BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
 		bw.write(contenido);
 		bw.close();
 		System.out.println("El archivo fue ubicado en " + temp.getPath().toString());
-		// temp.delete();
 	}
 
 }
